@@ -57,37 +57,28 @@
                            --}}
                            <div class="line-entry">
                               <div class="header-top-entry increase-icon-responsive login">
-                                 <a href="{{url('user/login')}}" class="title"><span>My Account</span></a>
+                                 <a href="{{url('user/login')}}" class="title"><span>@lang('navlink.my_account')</span></a>
                               </div>
                               <div class="header-top-entry increase-icon-responsive login">
-                                 <a href="{{url('user/login')}}" class="title"><span>Daily Deal</span></a>
+                                 <a href="{{url('user/login')}}" class="title"><span>@lang('navlink.daily_deal')</span></a>
                               </div>
                               <div class="header-top-entry increase-icon-responsive login">
-                                 <a href="{{url('user/login')}}" class="title"><span>My Wishlist</span></a>
+                                 <a href="{{url('user/login')}}" class="title"><span>@lang('navlink.my_wishlist')</span></a>
                               </div>
                               <div class="header-top-entry increase-icon-responsive login">
-                                 <a href="{{url('user/login')}}" class="title"> 
-
-                                    @if(Auth::user())
-                                       <span>{{Auth::user()->name}}</span> 
-                                    @else 
-                                     <span>Log In</span>
-                                    @endif 
-                                 </a>
+                                 <a href="{{url('user/login')}}" class="title"><span>@lang('navlink.log_in')</span></a>
                               </div>
                               <div class="header-top-entry increase-icon-responsive open-search-popup">
-                                 <div class="title"><span>Search...</span></div>
+                                 <div class="title"><span>@lang('navlink.search')</span></div>
                               </div>
-                           <!--    <div class="header-top-entry increase-icon-responsive login">
+                              <div class="header-top-entry increase-icon-responsive login">
                                  <a href="#" class="title"><span>
                                      <select>
-                                          <option value="All">All Categories</option>
-                                          @foreach($menus as $menu)
-                                         <option value=""> <a href="{{url('/category')}}/{{$menu->slug}}">{{$menu->name}}</option>
-                                          @endforeach
+                                          <option value="All">@lang('navlink.all_categories')</option>
+                                          <option value="3">@lang('navlink.fashion')</option>
                                         </select>
                                  </span></a>
-                              </div> -->
+                              </div>
                              
                            </div>
                            <div class="navigation">
@@ -98,16 +89,38 @@
                               <div class="nav-overflow">
                                  <nav>
                                     <ul>
-                                       <!-- <li class="simple-list"><a href="{{url('/')}}" class="">Home</a></li> -->
+                                       <li class="simple-list">
+                                          <a href="{{url('/')}}" class="">
+                                             @lang('navlink.fashion')
+                                          </a>
+                                       </li>
+                                       <li class="simple-list">
+                                          <a href="{{ url('locale/en') }}">
+                                              @lang('navlink.english')
+                                          </a>
+                                       </li>
+                                       <li class="simple-list">
+                                          <a href="{{ url('locale/ar') }}">
+                                             @lang('navlink.arabic')
+                                          </a>
+                                       </li>
                                        <li class="simple-list logo_second">
                                           <a href="{{url('/')}}" id="logo">
                                               <img alt="" src="{{ URL::asset('assets/images/logo')}}/{{$settings[0]->logo}}">
                                            </a>
                                        </li>
-                                       <li class="simple-list"><a href="{{url('/')}}" class="">Home</a></li>
+                                       <li class="simple-list">
+                                          <a href="{{url('/')}}" class="">
+                                            @lang('navlink.home')
+                                          </a>
+                                       </li>
+
                                        @foreach($menus as $menu)
                                        <li class="full-width-columns">
-                                          <a href="{{url('/category')}}/{{$menu->slug}}">{{$menu->name}}</a>
+                                          <a href="{{url('/category')}}/{{$menu->slug}}">
+                                             {{$menu->name}}
+                                          </a>
+
                                           @if(\App\Category::where('mainid',$menu->id)->where('role','sub')->count() >0)
                                           <i class="fa fa-chevron-down"></i>
                                           <div class="submenu">
@@ -120,7 +133,6 @@
                                                       <li><a href="{{url('/category')}}/{{$childmenu->slug}}"><i class="fa fa-angle-right"></i>{{$childmenu->name}}</a></li>
                                                       @endforeach
                                                    </ul>
-                                                   
                                                 </div>
                                                 <div class="hot-mark yellow">sale</div>
                                              </div>
@@ -128,9 +140,7 @@
                                           </div>
                                           @endif
                                        </li>
-
                                        @endforeach
-                                       
                                        @if($pagesettings[0]->a_status == 1)
                                        @endif
                                        @if($pagesettings[0]->f_status == 1)
@@ -138,7 +148,10 @@
                                        @if($pagesettings[0]->c_status == 1)
                                        <li class="simple-list">
                                           <a href="{{url('/cart')}}" class="header-top-entry open-cart-popup" id="notify">
-                                             <div class="title"><i class="fa fa-shopping-cart"></i><span>My Cart</span> <b id="carttotal">$0.00</b></div>
+                                             <div class="title">
+                                                <i class="fa fa-shopping-cart"></i>
+                                                <span>@lang('navlink.my_cart')</span> <b id="carttotal">$0.00</b>
+                                             </div>
                                           </a>
                                        </li>
                                        @endif
@@ -168,20 +181,55 @@
             <div class="container">
             <div class="row">
                <div class="col-md-3 about">
-                  <h4>CONTACT INFORMATION</h4>
+                  <h4>@lang('footer.contact_information')</h4>
                   <ul>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#">Snatchr App Download</a></li>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#"> Help</a></li>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#"> Returns Centre</a></li>
+                      <li>
+                          <i class="fa fa-play" aria-hidden="true"></i>
+                             <a href="#">
+                                 @lang('footer.snatch_app_download')
+                             </a>
+                      </li>
+                      <li>
+                        <i class="fa fa-play" aria-hidden="true"></i> 
+                           <a href="#"> 
+                              @lang('footer.help')
+                           </a>
+                        </li>
+                      <li>
+                           <i class="fa fa-play" aria-hidden="true"></i>
+                           <a href="#">
+                              @lang('footer.return_centre')
+                           </a>
+                      </li>
                   </ul>
                </div>
                <div class="col-md-3 address">
-                  <h4>MY ACCOUNT</h4>
+                  <h4>@lang('footer.my_account')</h4>
                   <ul>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#">About us</a></li>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#">Contact us</a></li>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#">Order history</a></li>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#">Advanced search</a></li>
+                     <li>
+                       <i class="fa fa-play" aria-hidden="true"></i> 
+                       <a href="#">
+                          @lang('footer.about_us')
+                       </a>
+                     </li>
+                     <li>
+                        <i class="fa fa-play" aria-hidden="true"></i>
+                        <a href="#">
+                           @lang('footer.contact_us')
+                        </a>
+                     </li>
+                     <li>
+                        <i class="fa fa-play" aria-hidden="true"></i>
+                        <a href="#">
+                           @lang('footer.order_history')
+                        </a>
+                     </li>
+                     <li>
+                        <i class="fa fa-play" aria-hidden="true"></i>
+                        <a href="#">
+                           @lang('footer.advanced_search')
+                        </a>
+                     </li>
                   </ul>
                   <!-- <p>Street Address: {{$settings[0]->address}}</p>
                   <p>Phone: {{$settings[0]->phone}}</p>
@@ -189,21 +237,36 @@
                   <p>Email: {{$settings[0]->email}}</p> -->
                </div>
                <div class="col-md-3 about">
-                  <h4>MAIN FEATURES</h4>
+                  <h4>@lang('footer.main_feature')</h4>
                   <ul>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#">100% Purchase Protection</a></li>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#"> Returns Centre</a></li>
-                      <li><i class="fa fa-play" aria-hidden="true"></i> <a href="#">Your Account</a></li>
+                     <li>
+                        <i class="fa fa-play" aria-hidden="true"></i>
+                        <a href="#">
+                           @lang('footer.100%_purchase_protection')
+                        </a>
+                     </li>
+                     <li>
+                        <i class="fa fa-play" aria-hidden="true"></i>
+                        <a href="#">
+                         @lang('footer.return_centre')
+                        </a>
+                     </li>
+                     <li>
+                        <i class="fa fa-play" aria-hidden="true"></i>
+                        <a href="#">
+                           @lang('footer.your_account')
+                        </a>
+                     </li>
                   </ul>
                </div>
                
                <div class="col-md-3 custom_footer_input">
-                     <h4>Subscription:</h4>
-                     <p>Get all the latest information on Events, Sales and Offers. Sign up for newsletter today.</p>
+                     <h4>@lang('footer.subscription')</h4>
+                     <p>@lang('footer.latest_information')</p>
                   <form action="{{action('FrontEndController@subscribe')}}" method="post">
                      {{csrf_field()}}
                      <input type="email" id="email" class="form-control" placeholder="Enter Email" name="email" required>
-                     <button id="subs" class="btn btn-ocean">Subscribe</button>
+                     <button id="subs" class="btn btn-ocean">@lang('footer.subscribe')</button>
                   </form>
                </div>
             </div>
@@ -219,7 +282,6 @@
                   Your Cart is Empty.
                </div>
                <div id="goCart">
-                  
                </div>
                <div class="summary">
                   <div class="grandtotal">Total <span id="grandttl">$0.00</span></div>
@@ -301,24 +363,18 @@
                  }
              });
          
-
          function getCart() {
                 $.get('{{url('/')}}/cartupdate', function(response){
                     var total = 0;
                     $("#goCart").html('');
                     $.each(response, function(i, cart){
                         $.each(cart, function (index, data) {
-                         
                             //for (var i = 0; i <= index; i++){
-                          
-                            
                             var title = data.title.toLowerCase();
                             title = title.split(' ').join('-');
                             url = '{{url('/product')}}/'+data.product+'/'+title;
-                            var image = '{{url('/assets/images/products')}}/'+data.products.feature_image;
-                           
                             total = total + data.cost;
-                            $("#goCart").append('<div class="cart-entry"> <div id="goCart_image"><img src="'+image+'"/></div> <div class="content"> <a class="title" href="'+url+'">'+data.title+'</a> <div class="quantity">Quantity: '+data.quantity+'</div><div class="price">$'+data.cost+'</div></div><div class="button-x"><i class="fa fa-close" onclick=" getDelete('+data.product+')"></i></div></div>');
+                            $("#goCart").append('<div class="cart-entry"> <div class="content"> <a class="title" href="'+url+'">'+data.title+'</a> <div class="quantity">Quantity: '+data.quantity+'</div><div class="price">$'+data.cost+'</div></div><div class="button-x"><i class="fa fa-close" onclick=" getDelete('+data.product+')"></i></div></div>');
                             $('#grandttl').html('$'+total.toFixed(2));
                             $('#carttotal').html('$'+total.toFixed(2));
                             $('#emptycart').html('');

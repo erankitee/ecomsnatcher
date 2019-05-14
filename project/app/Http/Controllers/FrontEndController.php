@@ -42,6 +42,7 @@ class FrontEndController extends Controller
      */
     public function index()
     {
+        $portfilos = [];
         $languages = SectionTitles::findOrFail(1);
         $services = ServiceSection::all();
         $features = Product::where('featured','1')->where('status','1')->orderBy('id','desc')->take(8)->get();
