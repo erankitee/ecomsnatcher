@@ -1,0 +1,1 @@
+[11-Jul-2018 11:24:22 UTC] PHP Fatal error:  Call to a member function delete() on null in /home/bizzmana/public_html/soft/ecom/project/app/Http/Controllers/FrontEndController.php on line 135
