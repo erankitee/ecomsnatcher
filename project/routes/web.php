@@ -64,6 +64,11 @@ Route::get('admin/themecolor', function () {
     return view('admin.themecolor');
 });
 
+Route::get('locale/{locale}', function($locale) {
+	Session::put('locale', $locale);
+	return redirect()->back();
+});
+
 Auth::routes();
 
 
