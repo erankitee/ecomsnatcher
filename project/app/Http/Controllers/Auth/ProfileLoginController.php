@@ -19,7 +19,6 @@ class ProfileLoginController extends Controller
 
     public function login(Request $request){
 
-
         if (Auth::guard('profile')->attempt(['email' => $request->email,'password' => $request->password], false)){
             return redirect()->intended(route('user.account'));
         }

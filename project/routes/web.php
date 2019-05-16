@@ -84,7 +84,7 @@ Route::post('/vendor/withdrawsubmit', 'VendorController@withdrawsubmit')->name('
 Route::get('/vendor/dashboard', 'VendorController@index')->name('vendor.dashboard');
 Route::get('vendor/products/status/{id}/{status}', 'VendorProductsController@status');
 Route::resource('/vendor/products', 'VendorProductsController');
-
+Route::resource('wishlist', 'WishlistController');
 
 Route::get('/admin/dashboard', 'HomeController@index');
 Route::post('/admin/updatecolor', 'SettingsController@themecolor');
@@ -100,6 +100,7 @@ Route::post('admin/settings/background', 'SettingsController@background');
 Route::resource('/admin/settings', 'SettingsController');
 
 Route::resource('/admin/sliders', 'SliderController');
+Route::resource('dashboard', 'DashboardController');
 
 Route::get('/admin/customers/email/{id}', 'CustomerController@email');
 Route::post('/admin/customers/emailsend', 'CustomerController@sendemail');

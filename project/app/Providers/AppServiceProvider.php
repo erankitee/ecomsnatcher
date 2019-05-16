@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Advertisement;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
         view()->composer('*',function($settings){
             $settings->with('settings', DB::select('select * from settings where id=?',[1]));
             $settings->with('pagesettings', DB::select('select * from page_settings where id=?',[1]));

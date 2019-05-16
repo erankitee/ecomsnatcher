@@ -92,19 +92,19 @@
             <div class="col-md-4">
                 <div class="shop_now">
                     <img src="{{url('/assets/images/service/4rY3.jpg')}}" alt="">
-                    <a href="#">SHOP NOW</a>
+                    <a href="#">@lang('index.shop_now')</a>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="shop_now">
                     <img src="{{url('/assets/images/service/BfMUntitled-1.jpg')}}" alt="">
-                     <a href="#">SHOP NOW</a>
+                     <a href="#">@lang('index.shop_now')</a>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="shop_now">
                     <img src="{{url('/assets/images/service/Cxf2.jpg')}}" alt="">
-                     <a href="#">SHOP NOW</a>
+                     <a href="#">@lang('index.shop_now')</a>
                </div>
             </div>
         </div>
@@ -123,7 +123,7 @@
                   <div class="container">
                      <div class="row">
                         <div class="weekly_products">
-                            <h2>WEEKLY LATEST PRODUCTS</h2>
+                            <h2>@lang('index.weekly_latest_product')</h2>
                         </div>
                         <div class="col-md-12">
                            <div id="featured_product" class="hide-ratting owl-top-narrow">
@@ -185,14 +185,25 @@
                                                                 <input type="hidden" id="cost" name="cost" value="{{$product->price}}">
                                                                 <input type="hidden" id="quantity" name="quantity" value="1">
                                                                 @if($product->stock != 0 || $product->stock === null )
-                                                                <a href="#" class="addtowishlist" title="Add to Wishlist">
-                                                                <i class="fa fa-heart" aria-hidden="true"></i></a>
+                                                                <a 
+                                                                  href="#"
+                                                                  class="addtowishlist"
+                                                                  title="Add to Wishlist"
+                                                                  prodid="{{$product->id}}"
+                                                                  data-url="{{'wishlist'}}">
+                                                                  <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                </a>
                                                                  <a href="javascript:void(0)" class="addtocart to-cart" title="Add to Cart" onclick="#"><i class="fa fa-shopping-cart"></i>
-                                                                 <span>&nbsp;Add to Cart</span></a>
-                                                                    
+                                                                 <span>
+                                                                    &nbsp;@lang('index.add_to_cart')
+                                                                 </span>
+                                                                </a>
                                                                 @else
                                                                     <a href="javascript:void(0)" class="addtocart to-cart" title="Add to Cart" onclick="#"><i class="fa fa-shopping-cart"></i>
-                                                                 <span>&nbsp; Out of Stock</span></a>
+                                                                 <span>
+                                                                    &nbsp; @lang('index.out_of_stock')
+                                                                 </span>
+                                                                  </a>
                                                                 @endif
                                                                
                                                             </p>
@@ -338,8 +349,14 @@
                                                                 <input type="hidden" id="cost" name="cost" value="{{$product->price}}">
                                                                 <input type="hidden" id="quantity" name="quantity" value="1">
                                                                 @if($product->stock != 0 || $product->stock === null )
-                                                                <a href="#" class="addtowishlist" title="Add to Wishlist">
-                                                                <i class="fa fa-heart" aria-hidden="true"></i></a>
+                                                               <a 
+                                                                  href="#"
+                                                                  class="addtowishlist"
+                                                                  title="Add to Wishlist"
+                                                                  prodid="{{$product->id}}"
+                                                                  data-url="{{'wishlist'}}">
+                                                                  <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                </a>
                                                                  <a href="javascript:void(0)" class="addtocart to-cart" title="Add to Cart" onclick="#"><i class="fa fa-shopping-cart"></i>
                                                                  <span>&nbsp;Add to Cart</span></a>
                                                                     
@@ -425,6 +442,20 @@
 
 @section('footer')
 <script>
-
+  $('.addtowishlist').click(function(e){
+    var url = $(this).attr('data-url');
+    var productid = $(this).attr('prodid');
+    $.ajax({
+            type: "POST",
+            data: {
+              "_token": "{{ csrf_token() }}",
+              "prodid":productid,
+            },
+            url: url,
+            success:function(data){
+              $.notify(data['msg']);
+            }
+    });
+  });
 </script>
 @stop

@@ -7,6 +7,7 @@ use App\Order;
 use App\Product;
 use App\Review;
 use App\Settings;
+use App\Wishlist;
 use App\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +17,31 @@ use Illuminate\Support\Facades\Session;
 class UserProfileController extends Controller
 {
 
+ /**
+     *
+     * Bind Order model
+     *
+     */
+    protected $order;
 
-    public function __construct()
+    /**
+     *
+     * Bind Wishlist Model
+     *
+     */
+    protected $wishlist;
+    
+    /**
+     * Constructor For Controller
+     * 
+     * @param Wishlist $wishlist
+     */
+   
+    public function __construct(Wishlist $wishlist, Order $order)
     {
         $this->middleware('auth:profile',['except' => 'checkout','cashondelivery']);
+        $this->wishlist = $wishlist;
+        $this->order = $order;
     }
     /**
      * Display a listing of the resource.
@@ -28,9 +50,25 @@ class UserProfileController extends Controller
      */
     public function index()
     {
+         #Get the User
+        $user = Auth::user();
+
+        # Get the User Id
+        $userId = Auth::user()->id;
+
+         # Get the Orders of User
+         $orders = $this->order
+                        ->where('customerid', $userId)
+                        ->orderBy('id','desc')
+                        ->take(15)
+                        ->get();
+
+        # Get the user Wishlist
+        $wishlists = $this->wishlist->with('product')->where('user_id', $userId)->get();
+
         $user = UserProfile::find(Auth::user()->id);
         $orders = Order::where('customerid', Auth::user()->id)->orderBy('id','desc')->take(15)->get();
-        return view('account',compact('user','orders'));
+        return view('account',compact('user','orders', 'wishlists'));
     }
 
     /**
@@ -47,6 +85,8 @@ class UserProfileController extends Controller
     //Submit Review
     public function checkout()
     {
+        # Get the Authenticated User
+        $user = Auth::user();
             $product = 0;
             $quantity = 0;
             $sizes = 0;
@@ -122,27 +162,42 @@ class UserProfileController extends Controller
 
     }
 
+    /**
+     * Chnage Password
+     * 
+     * @param Request $request, $id
+     */
+    
     public function passchange(Request $request, $id)
     {
+        # Get the User
         $user = UserProfile::findOrFail($id);
-        $input = "";
-        if ($request->cpass){
-            if (Hash::check($request->cpass, $user->password)){
 
-                if ($request->newpass == $request->renewpass){
-                    $input['password'] = Hash::make($request->newpass);
+        # Initialize Input
+        $input = [];
+
+        # Check the validation of Password
+        if ($request->currentPassword){
+            if (Hash::check($request->currentPassword, $user->password)){
+
+                if ($request->newPassword == $request->confimNewPassword){
+                    $input['password'] = Hash::make($request->newPassword);
                 }else{
                     Session::flash('error', 'Confirm Password Does not match.');
-                    return redirect()->back();
+                    return redirect()->back()->with('message','New Password Does not match with Confirm Password.');
                 }
             }else{
                 Session::flash('error', 'Current Password Does not match');
-                return redirect()->back();
+                return redirect()->back()->with('message','Current Password Does not match.');
             }
         }
-        $user->update($input);
-        return redirect()->back()->with('message','Account Password Updated Successfully.');
 
+        # Update the Password of User
+        $user->update($input);
+
+        # Redirect Back
+        return redirect()->back()
+                         ->with('message','Account Password Updated Successfully.');
     }
 
     /**
