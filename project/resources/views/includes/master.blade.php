@@ -78,16 +78,7 @@
                               <div class="header-top-entry increase-icon-responsive open-search-popup">
                                  <div class="title"><span>Search...</span></div>
                               </div>
-                           <!--    <div class="header-top-entry increase-icon-responsive login">
-                                 <a href="#" class="title"><span>
-                                     <select>
-                                          <option value="All">All Categories</option>
-                                          @foreach($menus as $menu)
-                                         <option value=""> <a href="{{url('/category')}}/{{$menu->slug}}">{{$menu->name}}</option>
-                                          @endforeach
-                                        </select>
-                                 </span></a>
-                              </div> -->
+                      
                              
                            </div>
                            <div class="navigation">
@@ -98,7 +89,6 @@
                               <div class="nav-overflow">
                                  <nav>
                                     <ul>
-                                       <!-- <li class="simple-list"><a href="{{url('/')}}" class="">Home</a></li> -->
                                        <li class="simple-list logo_second">
                                           <a href="{{url('/')}}" id="logo">
                                               <img alt="" src="{{ URL::asset('assets/images/logo')}}/{{$settings[0]->logo}}">
@@ -221,10 +211,13 @@
                <div id="goCart">
                   
                </div>
+
                <div class="summary">
                   <div class="grandtotal">Total <span id="grandttl">$0.00</span></div>
                </div>
-               <div class="cart-buttons">
+
+             
+               <div class="cart-buttons cartbuttons">
                   <div class="column">
                      <a href="{{url('/cart')}}" class="button style-3">view cart</a>
                      <div class="clear"></div>
@@ -235,6 +228,8 @@
                   </div>
                   <div class="clear"></div>
                </div>
+            
+
             </div>
          </div>
          <div class="search-box popup">
@@ -303,22 +298,44 @@
          
 
          function getCart() {
+
                 $.get('{{url('/')}}/cartupdate', function(response){
                     var total = 0;
                     $("#goCart").html('');
+
+
+                     if(response['cartcount'] == 0){
+
+                        $(".cartbuttons").hide();
+
+                     }
+
+                     if(response['cartcount'] != 0){
+
+                        $(".cartbuttons").show();
+
+                     }
+
+                     /*if(response['cartcount'] != 0){
+
+                        $(".cartbuttons").html('');
+
+                     }*/
+
                     $.each(response, function(i, cart){
+
+
                         $.each(cart, function (index, data) {
                          
                             //for (var i = 0; i <= index; i++){
-                          
                             
                             var title = data.title.toLowerCase();
                             title = title.split(' ').join('-');
-                            url = '{{url('/product')}}/'+data.product+'/'+title;
+                            url = '{{url('/product')}}/'+data.product_id+'/'+title;
                             var image = '{{url('/assets/images/products')}}/'+data.products.feature_image;
                            
                             total = total + data.cost;
-                            $("#goCart").append('<div class="cart-entry"> <div id="goCart_image"><img src="'+image+'"/></div> <div class="content"> <a class="title" href="'+url+'">'+data.title+'</a> <div class="quantity">Quantity: '+data.quantity+'</div><div class="price">$'+data.cost+'</div></div><div class="button-x"><i class="fa fa-close" onclick=" getDelete('+data.product+')"></i></div></div>');
+                            $("#goCart").append('<div class="cart-entry"> <div id="goCart_image"><img src="'+image+'"/></div> <div class="content"> <a class="title" href="'+url+'">'+data.title+'</a> <div class="quantity">Quantity: '+data.quantity+'</div><div class="price">$'+data.cost+'</div></div><div class="button-x"><i class="fa fa-close" onclick=" getDelete('+data.id+')"></i></div></div>');
                             $('#grandttl').html('$'+total.toFixed(2));
                             $('#carttotal').html('$'+total.toFixed(2));
                             $('#emptycart').html('');
@@ -326,21 +343,24 @@
                             //}
                         })
                     })
+
+
                 });
+
             }
          
             function getDelete(id) {
                 $.get('{{url('/')}}/cartdelete/'+id, function(response){
-                    $('#grandttl').html('$0.00');
+                   /* $('#grandttl').html('$0.00');
                     $('#carttotal').html('$0.00');
                     $('#grandtotal').html('$0.00');
                     $('#emptycart').html('Your Cart is Empty.');
-                    $('#cartempty').html('<td><h3>Your Cart is Empty.</h3></td>');
+                    $('#cartempty').html('<td><h3>Your Cart is Empty.</h3></td>');*/
                     $('#item'+id).remove();
                     var total = 0;
                     var url = '';
-                    $("#goCart").html('');
-                    $.each(response, function(i, cart){
+                    //$("#goCart").html('');
+                 /*   $.each(response, function(i, cart){
                         $.each(cart, function (index, data) {
                             //for (var i = 0; i <= index; i++){
                             var title = data.title.toLowerCase();
@@ -356,10 +376,23 @@
                             //console.log('index', data);
                             //}
                         })
-                    })
+                    })*/
+
+                   
+
+                        location.reload();
+
                 });
             }
-         
+            
+            function clearCart()
+            {
+              
+               $.get('{{url('/')}}/clearcart', function(response){
+                     location.reload();
+
+                });
+            }
          
             $(".to-cart").click(function(){
          
@@ -379,6 +412,7 @@
             });
          
          function toCart(btn) {
+
                 var formData = $(btn).parents('form:first').serializeArray();
                 $.ajax({
                     type: "POST",

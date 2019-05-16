@@ -141,19 +141,28 @@ class FrontEndController extends Controller
         $getcart = Cart::with('products')->where('uniqueid',Session::get('uniqueid'))->get();
 
 
-        return response()->json(['response' => $getcart]);
+
+        return response()->json(['response' => $getcart,'cartcount' => count($getcart)]);
     }
 
     public function cartdelete($id)
     {
-        $cartproduct = Cart::where('uniqueid',Session::get('uniqueid'))
-            ->where('product',$id)->first();
+        
+        $cartproduct = Cart::where('id',$id)->first();
         $cartproduct->delete();
 
         $getcart = Cart::where('uniqueid',Session::get('uniqueid'))->get();
         return response()->json(['response' => $getcart]);
+
     }
 
+    public function clearcart()
+    {
+        
+        $cartproduct = Cart::where('uniqueid',Session::get('uniqueid'))->delete();
+        return response()->json(['response' => 'true']);
+
+    }
     //Submit Review
     public function reviewsubmit(Request $request)
     {

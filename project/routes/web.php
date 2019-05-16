@@ -45,6 +45,7 @@ Route::get('/cart', 'FrontEndController@cart')->name('user.cart');
 
 
 Route::get('/cartdelete/{id}', 'FrontEndController@cartdelete');
+Route::get('/clearcart','FrontEndController@clearcart');
 Route::get('/cartupdate', 'FrontEndController@cartupdate');
 Route::post('/cartupdate', 'FrontEndController@cartupdate');
 

@@ -33,9 +33,9 @@
                         </tr>
                         <tr id="cartempty"></tr>
                         @forelse($carts as $cart)
-                        <tr id="item{{$cart->product}}">
+                        <tr id="item{{$cart->product_id}}">
                             <td>
-                              <a class="remove-button" onclick="getDelete({{$cart->product}})"><i class="fa fa-times"></i>
+                              <a class="remove-button" onclick="getDelete({{$cart->id}})"><i class="fa fa-times"></i>
                               </a>
                             </td>
                             <td>
@@ -47,26 +47,24 @@
                                 <div class="traditional-cart-entry">
                                     <div class="content">
                                         <div class="cell-view">
-                                            {{--<a href="#" class="tag">woman clothing</a>--}}
-                                            <a href="{{url('/product')}}/{{$cart->product}}/{{str_replace(' ','-',strtolower($cart->products->title))}}" class="title">{{$cart->title}}</a>
-                                            {{--<div class="inline-description">S / Dirty Pink</div>--}}
-                                            {{--<div class="inline-description">Zigzag Clothing</div>--}}
+                                            <a href="{{url('/product')}}/{{$cart->product_id}}/{{str_replace(' ','-',strtolower($cart->products->title))}}" class="title">{{$cart->title}}</a>
+                                        
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td id="price{{$cart->product}}" class="prices">${{$cart->products->price}}</td>
+                            <td id="price{{$cart->product_id}}" class="prices">${{$cart->products->price}}</td>
                             <td>
                                 <div class="quantity-selector detail-info-entry">
-                                    <div class="entry number-minus" id="minus{{$cart->product}}">&nbsp;</div>
-                                    <div class="entry number" id="number{{$cart->product}}">{{$cart->quantity}}</div>
-                                    <div class="entry number-plus" id="plus{{$cart->product}}">&nbsp;</div>
+                                    <div class="entry number-minus" id="minus{{$cart->product_id}}">&nbsp;</div>
+                                    <div class="entry number" id="number{{$cart->product_id}}">{{$cart->quantity}}</div>
+                                    <div class="entry number-plus" id="plus{{$cart->product_id}}">&nbsp;</div>
                                 </div>
                             </td>
-                            <td><div class="subtotal" id="subtotal{{$cart->product}}">${{$cart->cost}}</div></td>
+                            <td><div class="subtotal" id="subtotal{{$cart->product_id}}">${{$cart->cost}}</div></td>
                             
 
-                            <form id="citem{{$cart->product}}">
+                            <form id="citem{{$cart->product_id}}">
                                 {{csrf_field()}}
                                 @if(Session::has('uniqueid'))
                                     <input type="hidden" name="uniqueid" value="{{Session::get('uniqueid')}}">
@@ -74,17 +72,17 @@
                                     <input type="hidden" name="uniqueid" value="{{str_random(7)}}">
                                 @endif
                                 <input type="hidden" name="title" value="{{$cart->title}}">
-                                <input type="hidden" name="product" value="{{$cart->product}}">
-                                <input type="hidden" id="cost{{$cart->product}}" name="cost" value="{{$cart->cost}}">
-                                <input type="hidden" id="quantity{{$cart->product}}" name="quantity" value="{{$cart->quantity}}">
+                                <input type="hidden" name="product_id" value="{{$cart->product_id}}">
+                                <input type="hidden" id="cost{{$cart->product_id}}" name="cost" value="{{$cart->cost}}">
+                                <input type="hidden" id="quantity{{$cart->product_id}}" name="quantity" value="{{$cart->quantity}}">
                             </form>
 
                         </tr>
 
                         @empty
                             <tr>
-                                <td>
-                                    <h3>Your Cart is Empty.</h3>
+                                <td colspan="5">
+                                    <h3 style="text-align: center;">Your Cart is Empty.</h3>
                                 </td>
                                 <td></td>
                                 <td></td>
@@ -98,10 +96,11 @@
                       <div class="row">
                          <div class="col-md-3">
                           <a class="button style-10" href="{{url('/')}}">Continue Shopping</a></div>
-                         <!--<div class="col-md-5">
-                            <a class="button style-12" href="{{url('/')}}">Clear Shopping Cart</a></div> -->
+                        @if(count($carts) != 0 )
                          <div class="col-md-4">
-                           <a class="button style-12" href="{{url('/')}}">Clear Shopping Cart</a></div>
+                           <a class="button style-12" href="#" onclick="clearCart()"> Clear Shopping Cart</a>
+                         </div>
+                         @endif
                        </div>
                      </div>
                 </div>
