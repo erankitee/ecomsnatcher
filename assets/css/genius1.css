@@ -47,31 +47,19 @@ body{
     margin-bottom: 10px;
     width: 100%;
 }
-.tabs li a{
-    color: #281d99;
-    line-height: 20px;
-}
-
-.tabs > li.active{
-    color: #FFF;
-    background-color:  #281d99;
-}
 
 .tabs > li.active a{
-    color: #FFF;
+    color: #0091da;
 }
 
 .tabs > li.active:focus a{
-    color: #FFF;
+    color: #0091da;
 }
 
 .tabs > li:hover{
-    background-color:  #281d99;
-    color: #FFF;
+    color: #0091da;
 }
-.tabs > li:hover a{
-    color: #FFF;
-}
+
 
 
 /*Service Section CSS Start*/
@@ -727,10 +715,7 @@ a.bordered-btn:hover {
     border-top-width: 1px;
     z-index: 50
 }
-.nav > li > a:focus{
-    background-color: #281d99;
-    color: #FFF;
-}
+
 .navbar-bootsnipp.affix-top {
     position: absolute;
     top: 0px;

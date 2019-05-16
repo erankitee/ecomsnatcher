@@ -67,6 +67,7 @@
 
                                             <div class="col-md-6">
                                                 <form role="form" method="POST" action="{{ route('user.login.submit') }}" id="login-form">
+                                                    {{csrf_field()}}
                                                 <div class="col-md-12">
                                                     <h3>REGISTERED CUSTOMERS</h3>
                                                      <p>If you have an account with us, please log in.</p>

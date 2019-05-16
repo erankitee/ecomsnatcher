@@ -44,9 +44,15 @@
                            <!-- <a href="{{url('/')}}" id="logo">
                            <img alt="" src="{{ URL::asset('assets/images/logo')}}/{{$settings[0]->logo}}">
                            </a> -->
-                           <a href="{{url('/')}}" id="logo">
-                           <img alt="" src="{{ URL::asset('assets/images/logo')}}/{{$settings[0]->logo}}">
-                           </a>
+                           @if (App::isLocale('ar'))
+                              <a href="{{url('/')}}" id="logo" >
+                                 <img alt="" class="pull-right" src="{{ URL::asset('assets/images/logo')}}/{{$settings[0]->logo}}">
+                              </a>
+                           @else
+                              <a href="{{url('/')}}" id="logo">
+                                 <img alt="" src="{{ URL::asset('assets/images/logo')}}/{{$settings[0]->logo}}">
+                              </a>
+                           @endif
                         </div>
                         <div class="product-header-content">
                            <div class="line-entry">
@@ -89,6 +95,11 @@
                               <div class="nav-overflow">
                                  <nav>
                                     <ul>
+                                       <li class="simple-list logo_second">
+                                          <a href="{{url('/')}}" id="logo">
+                                              <img alt="" src="{{ URL::asset('assets/images/logo')}}/{{$settings[0]->logo}}">
+                                           </a>
+                                       </li>
                                        <li class="simple-list">
                                           <a href="{{url('/')}}" class="">
                                              @lang('navlink.fashion')
@@ -104,11 +115,7 @@
                                              @lang('navlink.arabic')
                                           </a>
                                        </li>
-                                       <li class="simple-list logo_second">
-                                          <a href="{{url('/')}}" id="logo">
-                                              <img alt="" src="{{ URL::asset('assets/images/logo')}}/{{$settings[0]->logo}}">
-                                           </a>
-                                       </li>
+                                       
                                        <li class="simple-list">
                                           <a href="{{url('/')}}" class="">
                                             @lang('navlink.home')
