@@ -185,3 +185,5 @@ Route::post('/user/registration', 'Auth\ProfileRegistrationController@register')
 
 Route::get('/user/forgot', 'Auth\ProfileResetPassController@showForgotForm')->name('user.forgotpass');
 Route::post('/user/forgot', 'Auth\ProfileResetPassController@resetPass')->name('user.forgotpass.submit');
+
+Route::resource('address', 'AddressController');

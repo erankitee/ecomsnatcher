@@ -64,6 +64,16 @@ class UserProfile extends Authenticatable
     }
 
     /**
+     * Get the addresses for user.
+     *
+     * May have many in addresses
+     */
+    public function getAddress()
+    {
+        return $this->hasMany('App\Address', 'user_id');
+    }
+
+    /**
      * Atrribute to return Full Address of User
      * 
      * return string|null
@@ -84,4 +94,15 @@ class UserProfile extends Authenticatable
 
         return $name.$address.$city.$zip;
     }
+
+    /**
+     *
+     * Get All the Addresses of Authenticated User
+     *
+     */
+    public function getAllAddressesAttribute()
+    {
+        return $this->getAddress;
+    }
+    
 }
