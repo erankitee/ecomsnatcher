@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Cart;
 use App\Order;
 use App\Product;
@@ -10,7 +11,6 @@ use App\Settings;
 use App\Wishlist;
 use App\UserProfile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -40,6 +40,8 @@ class UserProfileController extends Controller
     public function __construct(Wishlist $wishlist, Order $order)
     {
         $this->middleware('auth:profile',['except' => 'checkout','cashondelivery']);
+        $this->middleware('web');
+        $this->middleware('auth:profile');
         $this->wishlist = $wishlist;
         $this->order = $order;
     }
@@ -85,9 +87,18 @@ class UserProfileController extends Controller
     //Submit Review
     public function checkout()
     {
+        $this->middleware('auth');
         # Get the Authenticated User
         $user = Auth::user();
-            $product = 0;
+
+        # Check wheather User is Log In or Not
+        if (Auth::check()) {
+            // The user is logged in...
+            return view('address')->withUser($user);
+        } else {
+            dd(12);
+        }
+           /* $product = 0;
             $quantity = 0;
             $sizes = 0;
             $settings = Settings::findOrFail(1);
@@ -109,7 +120,7 @@ class UserProfileController extends Controller
                 return view('checkout',compact('product','sizes','quantity','total','cartdata','user'));
             }
 
-        return redirect()->route('user.cart')->with('message','You don\'t have any product to checkout.');
+        return redirect()->route('user.cart')->with('message','You don\'t have any product to checkout.');*/
     }
 
     /**
